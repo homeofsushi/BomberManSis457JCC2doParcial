@@ -42,8 +42,6 @@ public:
     /** Configura mesh, colisión, material según CoinType. */
     virtual void InitializeBlock() override;
 
-    /** Devuelve un clon idéntico: se spawnea otra moneda en el mismo transform. */
-    virtual ABloqueBase* Clone() const override;
 
 protected:
     /** Invocado cuando comienza el juego o se spawnea el actor. */

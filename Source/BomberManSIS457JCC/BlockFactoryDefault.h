@@ -21,9 +21,6 @@ class BOMBERMANSIS457JCC_API UBlockFactoryDefault : public UBlockFactory
 public:
     UBlockFactoryDefault() : UBlockFactory() {}
 
-    /**
-     * Aquí implementamos la lógica real de creación (Factory Method)
-     */
     virtual ABloqueBase* FabricarBloque_Implementation(
         ETipoBloque Tipo,
         const FTransform& SpawnTransform,

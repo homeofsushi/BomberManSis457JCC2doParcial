@@ -64,33 +64,6 @@ void APuertaTeletransportadora::InitializeBlock()
     //     justo después de spawnear todas las puertas, para que cada puerta conozca a las demás).
 }
 
-ABloqueBase* APuertaTeletransportadora::Clone() const
-{
-    UWorld* World = GetWorld();
-    if (!World) return nullptr;
-
-    // 1. Obtenemos la misma transformación (posición, rotación, escala) que el original
-    FTransform TransformOriginal = GetActorTransform();
-
-    // 2. Spawneamos un nuevo actor de este mismo tipo
-    APuertaTeletransportadora* Clon = World->SpawnActor<APuertaTeletransportadora>(
-        APuertaTeletransportadora::StaticClass(), TransformOriginal);
-
-    if (Clon)
-    {
-        // 3. Copiar listado de puertas (heredar la lista, si ya estaba configurada)
-        Clon->PuertasTeletransportadoras = PuertasTeletransportadoras;
-
-        // 4. Llamar a InitializeBlock para volver a vincular eventos en el clon
-        Clon->InitializeBlock();
-    }
-    return Clon;
-}
-
-void APuertaTeletransportadora::SetPuertasTeletransportadoras(const TArray<APuertaTeletransportadora*>& TodasPuertas)
-{
-    PuertasTeletransportadoras = TodasPuertas;
-}
 
 void APuertaTeletransportadora::OnOverlapBegin(
     UPrimitiveComponent* OverlappedComp,

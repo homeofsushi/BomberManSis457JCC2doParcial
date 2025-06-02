@@ -33,18 +33,5 @@ void ABloqueLadrillo::InitializeBlock()
     // Aquí podrías ajustar más si quisieras—por ejemplo, cambio de escala o colisión.
 }
 
-ABloqueBase* ABloqueLadrillo::Clone() const
-{
-    UWorld* World = GetWorld();
-    if (!World) return nullptr;
-
-    FTransform T = GetActorTransform();
-    ABloqueLadrillo* Clon = World->SpawnActor<ABloqueLadrillo>(ABloqueLadrillo::StaticClass(), T);
-    if (Clon)
-    {
-        Clon->InitializeBlock();
-    }
-    return Clon;
-}
 
 

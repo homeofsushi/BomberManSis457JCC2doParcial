@@ -18,7 +18,7 @@ public:
     ABloqueMadera();
 
     virtual void InitializeBlock() override;
-    virtual ABloqueBase* Clone() const override;
+
 
 private:
     UPROPERTY(VisibleAnywhere)

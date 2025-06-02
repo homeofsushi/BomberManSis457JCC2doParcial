@@ -145,32 +145,4 @@ void ACoin::OnOverlapBegin(
     }
 }
 
-ABloqueBase* ACoin::Clone() const
-{
-    UWorld* World = GetWorld();
-    if (!World)
-        return nullptr;
-
-    // 1) Obtenemos la transformación actual del actor original
-    FTransform OrigTransform = GetActorTransform();
-
-    // 2) Spawneamos una nueva ACoin en esa transform
-    ACoin* Clon = World->SpawnActor<ACoin>(ACoin::StaticClass(), OrigTransform);
-
-    if (Clon)
-    {
-        // 3) Copiar las variables que sean importantes (tipo y valor)
-        Clon->CoinType = this->CoinType;
-        Clon->CoinValue = this->CoinValue;
-        Clon->RotationSpeed = this->RotationSpeed;
-        Clon->RotationDirection = this->RotationDirection;
-        Clon->RotationInterval = this->RotationInterval;
-        // ... (si tuvieras más propiedades a clonar, aquí las copiarías)
-
-        // 4) Llamar a InitializeBlock() para que cargue el material según CoinType
-        Clon->InitializeBlock();
-    }
-
-    return Clon;
-}
 

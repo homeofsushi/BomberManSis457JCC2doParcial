@@ -22,8 +22,9 @@ public:
 	 * Cada subclase concreta debe implementar Clone() para devolver
 	 * una copia idéntica de sí misma (para Prototype).
 	 */
-	virtual ABloqueBase* Clone() const PURE_VIRTUAL(ABloqueBase::Clone, return nullptr; );
-	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	virtual ABloqueBase* Clone(const FVector& NuevaPosicion);
+
+
 	ETipoBloque TipoBloque;
 
 protected:

@@ -24,4 +24,23 @@ void ABloqueBase::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 }
+ ABloqueBase * ABloqueBase::Clone(const FVector & NuevaPosicion)
+{
+    UWorld* World = GetWorld();
+    if (!World) return nullptr;
+
+    FActorSpawnParameters SpawnParams;
+    ABloqueBase* NuevoBloque = World->SpawnActor<ABloqueBase>(GetClass(), NuevaPosicion, GetActorRotation(), SpawnParams);
+    if (!NuevoBloque) return nullptr;
+
+    // Copia propiedades relevantes
+    NuevoBloque->TipoBloque = this->TipoBloque;
+    NuevoBloque->SetActorScale3D(this->GetActorScale3D());
+    NuevoBloque->SetActorRotation(this->GetActorRotation());
+    // Copia materiales si es necesario, etc.
+
+    return NuevoBloque;
+}
+
+
 

@@ -27,11 +27,14 @@ public:
     virtual void ConstruirPuerta(int filaDesde, int colDesde, int filaHasta, int colHasta) override;
     virtual AALaberinto* ObtenerLaberinto() override;
     TMap<FIntPoint, FVector2D> OffsetAleatorioPorCelda;
+    // ULaberintoBuilderDefault.h
+    UPROPERTY()
+    int Filas = 0;
+    UPROPERTY()
+    int Columnas = 0;
+    UPROPERTY()
+    FVector LaberintoOffset;
 
-
-    // Parámetros del laberinto
-    const int Filas = 10;
-    const int Columnas = 10;
     const int ColumnaInicioDerecha = Columnas / 2; // 5 si Columnas=10
     const int ColumnaFinDerecha = Columnas;        // 10
 

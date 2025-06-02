@@ -46,12 +46,6 @@ public:
     virtual void InitializeBlock() override;
 
     /**
-     * Clona esta puerta: spawnea una nueva copia en la misma Transform
-     * y retorna puntero a ABloqueBase (para Prototype Pattern).
-     */
-    virtual ABloqueBase* Clone() const override;
-
-    /**
      * Llamar después de crear todas las puertas para pasarles la lista completa.
      */
     void SetPuertasTeletransportadoras(const TArray<APuertaTeletransportadora*>& TodasPuertas);

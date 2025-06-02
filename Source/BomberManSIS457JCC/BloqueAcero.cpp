@@ -33,17 +33,4 @@ void ABloqueAcero::InitializeBlock()
     // Ejemplo: podrías ajustar colisión o fisicas especiales.
 }
 
-ABloqueBase* ABloqueAcero::Clone() const
-{
-    UWorld* World = GetWorld();
-    if (!World) return nullptr;
-
-    FTransform T = GetActorTransform();
-    ABloqueAcero* Clon = World->SpawnActor<ABloqueAcero>(ABloqueAcero::StaticClass(), T);
-    if (Clon)
-    {
-        Clon->InitializeBlock();
-    }
-    return Clon;
-}
 

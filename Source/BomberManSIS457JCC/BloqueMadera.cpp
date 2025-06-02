@@ -38,23 +38,4 @@ void ABloqueMadera::InitializeBlock()
     // También podrías inicializar variables propias de "madera" (durabilidad, rigidez, etc.)
 }
 
-ABloqueBase* ABloqueMadera::Clone() const
-{
-    UWorld* World = GetWorld();
-    if (!World) return nullptr;
 
-    // Obtenemos la misma transform que el original
-    FTransform T = GetActorTransform();
-
-    // Spawneamos un nuevo BloqueMadera en esa transformación
-    ABloqueMadera* Copia = World->SpawnActor<ABloqueMadera>(ABloqueMadera::StaticClass(), T);
-    if (Copia)
-    {
-        // Copia de propiedades internas (si las existieran):
-        // Copia->Durabilidad = this->Durabilidad;
-        // Copia->MeshComp->SetMaterial(0, MeshComp->GetMaterial(0));
-
-        Copia->InitializeBlock();
-    }
-    return Copia;
-}

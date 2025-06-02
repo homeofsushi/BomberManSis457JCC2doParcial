@@ -1,0 +1,22 @@
+# Ignorar carpetas generadas por Unreal Engine
+Binaries/
+DerivedDataCache/
+Intermediate/
+Saved/
+.vscode/
+.vs/
+*.xcodeproj
+*.xcworkspace
+*.opensdf
+*.sdf
+*.suo
+*.user
+*.userprefs
+*.tlog
+*.log
+*.vspscc
+*.vssscc
+Build/
+Plugins/**/Binaries/
+*.opensdf
+*.vs

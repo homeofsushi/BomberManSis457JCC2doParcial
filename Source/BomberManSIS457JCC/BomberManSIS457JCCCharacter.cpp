@@ -8,6 +8,9 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/Controller.h"
 #include "Coin.h"
+#include "Bomba.h"
+#include "BomberManSIS457JCCGameMode.h"
+#include "Kismet/GameplayStatics.h"
 #include "GameFramework/SpringArmComponent.h"
 
 //////////////////////////////////////////////////////////////////////////
@@ -76,6 +79,12 @@ void ABomberManSIS457JCCCharacter::SetupPlayerInputComponent(class UInputCompone
 	// VR headset functionality
 	PlayerInputComponent->BindAction("ResetVR", IE_Pressed, this, &ABomberManSIS457JCCCharacter::OnResetVR);
 	PlayerInputComponent->BindAction("ReturnCoins", IE_Pressed, this, &ABomberManSIS457JCCCharacter::ReturnCoins);
+
+	PlayerInputComponent->BindAction("SpawnBombaSimple", IE_Pressed, this, &ABomberManSIS457JCCCharacter::SpawnBombaSimple);
+	PlayerInputComponent->BindAction("SpawnBombaCreciente", IE_Pressed, this, &ABomberManSIS457JCCCharacter::SpawnBombaCreciente);
+	PlayerInputComponent->BindAction("SpawnBombaTextura", IE_Pressed, this, &ABomberManSIS457JCCCharacter::SpawnBombaTextura);
+
+
 }
 
 
@@ -177,4 +186,36 @@ void ABomberManSIS457JCCCharacter::ReturnCoins()
 		Index++;
 	}
 	CollectedCoins.Empty();
+}
+void ABomberManSIS457JCCCharacter::SpawnBombaSimple()
+{
+	ABomberManSIS457JCCGameMode* GameMode = Cast<ABomberManSIS457JCCGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
+	if (GameMode)
+	{
+		FVector SpawnLocation = GetActorLocation() + GetActorForwardVector() * 100.f;
+		FRotator SpawnRotation = GetActorRotation();
+		GameMode->SpawnBomb(EBombType::Simple, SpawnLocation, SpawnRotation);
+	}
+}
+
+void ABomberManSIS457JCCCharacter::SpawnBombaCreciente()
+{
+	ABomberManSIS457JCCGameMode* GameMode = Cast<ABomberManSIS457JCCGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
+	if (GameMode)
+	{
+		FVector SpawnLocation = GetActorLocation() + GetActorForwardVector() * 100.f;
+		FRotator SpawnRotation = GetActorRotation();
+		GameMode->SpawnBomb(EBombType::Creciente, SpawnLocation, SpawnRotation);
+	}
+}
+
+void ABomberManSIS457JCCCharacter::SpawnBombaTextura()
+{
+	ABomberManSIS457JCCGameMode* GameMode = Cast<ABomberManSIS457JCCGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
+	if (GameMode)
+	{
+		FVector SpawnLocation = GetActorLocation() + GetActorForwardVector() * 100.f;
+		FRotator SpawnRotation = GetActorRotation();
+		GameMode->SpawnBomb(EBombType::Textura, SpawnLocation, SpawnRotation);
+	}
 }

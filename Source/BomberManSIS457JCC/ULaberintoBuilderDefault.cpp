@@ -8,34 +8,6 @@
 
 const FVector LaberintoOffset(-900.f, -500.f, 0.f);
 
-// --- Algoritmo DFS para generar caminos aleatorios ---
-namespace {
-    const int DX[4] = { -1, 1, 0, 0 };
-    const int DY[4] = { 0, 0, -1, 1 };
-
-    bool EsValido(int x, int y, int filas, int colIni, int colFin, const TArray<TArray<int>>& matriz) {
-        return x >= 0 && x < filas && y >= colIni && y < colFin && matriz[x][y] == 1;
-    }
-
-    void DFS(int x, int y, int filas, int colIni, int colFin, TArray<TArray<int>>& matriz, FRandomStream& rng) {
-        matriz[x][y] = 0; // 0 = camino, 1 = pared
-
-        TArray<int> dirs = { 0, 1, 2, 3 };
-        for (int i = 0; i < dirs.Num(); ++i) {
-            int j = rng.RandRange(i, dirs.Num() - 1);
-            dirs.Swap(i, j);
-        }
-
-        for (int dir : dirs) {
-            int nx = x + DX[dir] * 2;
-            int ny = y + DY[dir] * 2;
-            if (EsValido(nx, ny, filas, colIni, colFin, matriz)) {
-                matriz[x + DX[dir]][y + DY[dir]] = 0; // abre camino intermedio
-                DFS(nx, ny, filas, colIni, colFin, matriz, rng);
-            }
-        }
-    }
-}
 
 ULaberintoBuilderDefault::ULaberintoBuilderDefault()
 {
@@ -46,7 +18,7 @@ ULaberintoBuilderDefault::ULaberintoBuilderDefault()
 
 void ULaberintoBuilderDefault::ConstruirLaberinto()
 {
-    // --- Parámetros de límites y espaciado ---
+    // Parámetros de límites y espaciado
     const float xmin = -1800.f;
     const float xmax = 1000.f;
     const float ymin = -1400.f;
@@ -73,50 +45,28 @@ void ULaberintoBuilderDefault::ConstruirLaberinto()
     for (int i = 0; i < Filas; ++i)
         matriz[i].Init(1, Columnas); // Todo bloque por defecto
 
-    // 2. Generar caminos en la mitad derecha con DFS
+    // 2. Generar caminos aleatorios en la mitad derecha
     int colIni = Columnas / 2;
     int colFin = Columnas;
     FRandomStream rng(FMath::Rand());
-    int startX = FMath::RandRange(0, Filas - 1);
-    if (startX % 2 == 0) startX++;
-    int startY = colIni;
-    if (startY % 2 == 0) startY++;
-    DFS(startX, startY, Filas, colIni, colFin, matriz, rng);
 
-    // 3. Ensuciar caminos para que haya más bloques y menos caminos
     for (int i = 0; i < Filas; ++i) {
         for (int j = colIni; j < colFin; ++j) {
-            if (matriz[i][j] == 0 && rng.FRand() < 0.4f) {
-                matriz[i][j] = 1;
-            }
+            // Probabilidad de ser camino
+            if (rng.FRand() < 0.50f)
+                matriz[i][j] = 0;
         }
     }
 
-    // 3b. Agrupar bloques
-    for (int rep = 0; rep < 2; ++rep) {
-        for (int i = 0; i < Filas; ++i) {
-            for (int j = colIni; j < colFin; ++j) {
-                if (matriz[i][j] == 1) {
-                    for (int d = 0; d < 4; ++d) {
-                        int ni = i + DX[d];
-                        int nj = j + DY[d];
-                        if (ni >= 0 && ni < Filas && nj >= colIni && nj < colFin) {
-                            if (matriz[ni][nj] != 0) {
-                                matriz[ni][nj] = 1;
-                            }
-                        }
-                    }
-                }
-            }
+    // 3. Agrupar bloques (opcional, refuerza grupos)
+    for (int i = 1; i < Filas - 1; ++i) {
+        for (int j = colIni + 1; j < colFin - 1; ++j) {
+            int vecinos = 0;
+            for (int di = -1; di <= 1; ++di)
+                for (int dj = -1; dj <= 1; ++dj)
+                    if (matriz[i + di][j + dj] == 1) vecinos++;
+            if (vecinos >= 7) matriz[i][j] = 1;
         }
-    }
-    for (int k = 0; k < 10; ++k) {
-        int cx = rng.RandRange(0, Filas - 2);
-        int cy = rng.RandRange(colIni, colFin - 2);
-        for (int dx = 0; dx < 2; ++dx)
-            for (int dy = 0; dy < 2; ++dy)
-                if (cx + dx < Filas && cy + dy < colFin)
-                    matriz[cx + dx][cy + dy] = 1;
     }
 
     // 4. Colocar monedas y puertas aleatorias en caminos de la mitad derecha
@@ -129,7 +79,7 @@ void ULaberintoBuilderDefault::ConstruirLaberinto()
     caminos.Sort([&](const FIntPoint& A, const FIntPoint& B) { return rng.FRand() < 0.5f; });
 
     int numMonedas = FMath::Min(3, caminos.Num());
-    int numPuertas = FMath::Min(2, caminos.Num() - numMonedas);
+    int numPuertas = FMath::Min(3, caminos.Num() - numMonedas);
 
     for (int k = 0; k < numMonedas; ++k)
         matriz[caminos[k].X][caminos[k].Y] = 2;
@@ -155,7 +105,7 @@ void ULaberintoBuilderDefault::ConstruirLaberinto()
         }
     }
 
-    // 6. Clonar a la mitad izquierda
+    // 6. Clonar a la mitad izquierda (espejo)
     for (int i = 0; i < Filas; ++i) {
         for (int j = colIni; j < colFin; ++j) {
             int espejo = colIni - (j - colIni) - 1;
@@ -178,8 +128,6 @@ void ULaberintoBuilderDefault::ConstruirLaberinto()
         }
     }
 }
-
-
 // El resto de tus métodos (ConstruirBloque, etc.) no necesitan cambios.
 
 

@@ -1,22 +1,20 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
+// Source\BomberManSIS457JCC\PuertaTeletransportadora.h
 #pragma once
 
 #include "CoreMinimal.h"
 #include "BloqueBase.h"
-#include "Components/StaticMeshComponent.h"
 #include "Components/BoxComponent.h"
-#include "Particles/ParticleSystem.h"
+#include "Components/StaticMeshComponent.h"
 #include "PuertaTeletransportadora.generated.h"
 
 /**
- * 
+ * Puerta que teletransporta al personaje a otra puerta aleatoria.
  */
 UCLASS()
 class BOMBERMANSIS457JCC_API APuertaTeletransportadora : public ABloqueBase
 {
-	GENERATED_BODY()
-	
+    GENERATED_BODY()
+
 private:
     /** Componente de colisión para detectar overlaps */
     UPROPERTY(VisibleAnywhere)
@@ -26,28 +24,16 @@ private:
     UPROPERTY(VisibleAnywhere)
     UStaticMeshComponent* MeshComp;
 
-    /** Partículas que se reproducen al teletransportar */
-    UPROPERTY()
-    UParticleSystem* TeleportEffect;
-
-    /** Colección de todas las puertas que existen en escena (para elegir destino) */
+    /** Lista de todas las puertas teletransportadoras */
     TArray<APuertaTeletransportadora*> PuertasTeletransportadoras;
-
-    /** Conjunto de personajes a los que no queremos volver a teletransportar inmediatamente */
-    TSet<ACharacter*> IgnoradosTemporalmente;
 
 public:
     APuertaTeletransportadora();
 
-    /**
-     * Configura mesh, colisión y enlaza eventos.
-     * Se llama desde la fábrica justo después de spawnear este actor.
-     */
+    /** Configura mesh, colisión y enlaza eventos */
     virtual void InitializeBlock() override;
 
-    /**
-     * Llamar después de crear todas las puertas para pasarles la lista completa.
-     */
+    /** Asigna la lista de todas las puertas */
     void SetPuertasTeletransportadoras(const TArray<APuertaTeletransportadora*>& TodasPuertas);
 
 protected:

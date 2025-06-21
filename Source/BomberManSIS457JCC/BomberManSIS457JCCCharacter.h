@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "Bomba.h"
 #include "Coin.h"
 #include "BomberManSIS457JCCCharacter.generated.h"
 
@@ -36,6 +37,9 @@ public:
 
 	void CollectCoin(ACoin* Coin);
 	void ReturnCoins();
+	void SpawnBombaSimple();
+	void SpawnBombaCreciente();
+	void SpawnBombaTextura();
 protected:
 
 	/** Resets HMD orientation in VR. */

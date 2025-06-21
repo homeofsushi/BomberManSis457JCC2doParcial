@@ -15,6 +15,7 @@ ABomberManSIS457JCCGameMode::ABomberManSIS457JCCGameMode()
 	{
 		DefaultPawnClass = PlayerPawnBPClass.Class;
 	}
+	BombFactory = NewObject<UBombaFactoryConcreta>();
 }
 
 void ABomberManSIS457JCCGameMode::BeginPlay()
@@ -28,4 +29,11 @@ void ABomberManSIS457JCCGameMode::BeginPlay()
         AALaberintoDirector* Director = World->SpawnActor<AALaberintoDirector>(AALaberintoDirector::StaticClass(), Params);
         // El director hará todo en su BeginPlay
     }
+}
+void ABomberManSIS457JCCGameMode::SpawnBomb(EBombType Tipo, const FVector& Location, const FRotator& Rotation)
+{
+	if (BombFactory)
+	{
+		BombFactory->CrearBomba(GetWorld(), Location, Rotation, Tipo);
+	}
 }

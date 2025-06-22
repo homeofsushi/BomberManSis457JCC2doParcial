@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
-#include "BombaFactoryConcreta.h"
+#include "JuegoFacadeActor.h"
 #include "BomberManSIS457JCCGameMode.generated.h"
 
 UCLASS(minimalapi)
@@ -16,10 +16,10 @@ public:
 
 public:
 	ABomberManSIS457JCCGameMode();
-	UPROPERTY()
-	UBombaFactoryConcreta* BombFactory;
-
 	void SpawnBomb(EBombType Tipo, const FVector& Location, const FRotator& Rotation);
+
+private:
+	AJuegoFacadeActor* Facade;
 };
 
 

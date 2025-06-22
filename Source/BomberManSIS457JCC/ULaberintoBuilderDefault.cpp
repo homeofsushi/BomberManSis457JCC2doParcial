@@ -25,6 +25,7 @@ void ULaberintoBuilderDefault::ConstruirLaberinto()
     const float ymax = 1400.f;
     const float EspaciadoX = 100.f;
     const float EspaciadoY = 100.f;
+
     Columnas = static_cast<int>((xmax - xmin) / EspaciadoX) + 1;
     Filas = static_cast<int>((ymax - ymin) / EspaciadoY) + 1;
     LaberintoOffset = FVector(xmin, ymin, 0.f);
@@ -39,7 +40,6 @@ void ULaberintoBuilderDefault::ConstruirLaberinto()
     }
     LaberintoActual->InicializarMatriz(Filas, Columnas);
 
-    // 1. Matriz temporal: 0=camino, 1=bloque, 2=moneda, 3=puerta
     TArray<TArray<int>> matriz;
     matriz.SetNum(Filas);
     for (int i = 0; i < Filas; ++i)
@@ -53,7 +53,7 @@ void ULaberintoBuilderDefault::ConstruirLaberinto()
     for (int i = 0; i < Filas; ++i) {
         for (int j = colIni; j < colFin; ++j) {
             // Probabilidad de ser camino
-            if (rng.FRand() < 0.50f)
+            if (rng.FRand() < 0.75f)
                 matriz[i][j] = 0;
         }
     }

@@ -45,9 +45,6 @@ void AEnemigoTerrestre::Atacar()
     if (Objetivo && FVector::Dist(GetActorLocation(), Objetivo->GetActorLocation()) < 200.0f)
     {
         UE_LOG(LogTemp, Warning, TEXT("¡Enemigo terrestre ataca al jugador!"));
-        // Aquí podrías reducir la vida del jugador si tienes acceso a su clase
-        // auto* Jugador = Cast<ABomberManSIS457JCCCharacter>(Objetivo);
-        // if (Jugador) { Jugador->RecibirDanio(10.0f); }
     }
 }
 

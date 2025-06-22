@@ -5,6 +5,7 @@
 #include "BlockFactoryDefault.h"
 #include "PuertaTeletransportadora.h"
 #include "ALaberintoDirector.h"
+#include "JuegoFacadeActor.h"
 #include "UObject/ConstructorHelpers.h"
 
 ABomberManSIS457JCCGameMode::ABomberManSIS457JCCGameMode()
@@ -15,25 +16,28 @@ ABomberManSIS457JCCGameMode::ABomberManSIS457JCCGameMode()
 	{
 		DefaultPawnClass = PlayerPawnBPClass.Class;
 	}
-	BombFactory = NewObject<UBombaFactoryConcreta>();
+
+	Facade = nullptr;
 }
 
 void ABomberManSIS457JCCGameMode::BeginPlay()
 {
     Super::BeginPlay();
 
-    UWorld* World = GetWorld();
-    if (World)
-    {
-        FActorSpawnParameters Params;
-        AALaberintoDirector* Director = World->SpawnActor<AALaberintoDirector>(AALaberintoDirector::StaticClass(), Params);
-        // El director hará todo en su BeginPlay
-    }
+	UWorld* World = GetWorld();
+	if (World)
+	{
+		Facade = World->SpawnActor<AJuegoFacadeActor>();
+		if (Facade)
+		{
+			Facade->ConstruirLaberinto();
+		}
+	}
 }
 void ABomberManSIS457JCCGameMode::SpawnBomb(EBombType Tipo, const FVector& Location, const FRotator& Rotation)
 {
-	if (BombFactory)
+	if (Facade)
 	{
-		BombFactory->CrearBomba(GetWorld(), Location, Rotation, Tipo);
+		Facade->SpawnBomb(Tipo, Location, Rotation);
 	}
 }

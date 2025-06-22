@@ -26,6 +26,8 @@ ABloqueAcero::ABloqueAcero()
     }
 
     PrimaryActorTick.bCanEverTick = false;
+
+    Dureza = 40;
 }
 
 void ABloqueAcero::InitializeBlock()

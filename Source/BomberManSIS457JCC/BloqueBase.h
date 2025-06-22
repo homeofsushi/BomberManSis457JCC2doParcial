@@ -5,10 +5,11 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "BloqueTipos.h"
+#include "BloqueComponent.h"
 #include "BloqueBase.generated.h"
 
 UCLASS()
-class BOMBERMANSIS457JCC_API ABloqueBase : public AActor
+class BOMBERMANSIS457JCC_API ABloqueBase : public AActor, public IBloqueComponent
 {
 	GENERATED_BODY()
 	
@@ -26,6 +27,11 @@ public:
 
 
 	ETipoBloque TipoBloque;
+
+	//PARA EL COMPOSITE 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Bloque")
+	int32 Dureza;
+	virtual void RecibirDanio(int32 Danio);
 
 protected:
 	// Called when the game starts or when spawned

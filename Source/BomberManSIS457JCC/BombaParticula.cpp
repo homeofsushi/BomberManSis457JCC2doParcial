@@ -6,8 +6,9 @@
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "UObject/ConstructorHelpers.h"
+#include "BloqueBase.h" 
 #include "Particles/ParticleSystem.h"
-#include "UObject/ConstructorHelpers.h"
+
 
 ABombaParticula::ABombaParticula()
 {
@@ -37,6 +38,8 @@ ABombaParticula::ABombaParticula()
     Movimiento->MaxSpeed = 600.f;
     Movimiento->bRotationFollowsVelocity = true;
     Movimiento->ProjectileGravityScale = 0.f;
+    Danio = 30;
+    RadioExplosion = 300.f;
 }
 
 void ABombaParticula::BeginPlay()
@@ -56,6 +59,31 @@ void ABombaParticula::Explota()
     {
         UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), ParticulasExplosion, GetActorLocation());
     }
+
+    // Encuentra bloques dentro del radio
+    TArray<AActor*> BloquesAfectados;
+    UGameplayStatics::GetAllActorsOfClass(GetWorld(), ABloqueBase::StaticClass(), BloquesAfectados);
+    // Crear un composite para los bloques afectados
+    ABloqueComposite* Grupo = GetWorld()->SpawnActor<ABloqueComposite>();
+
+    for (AActor* Bloque : BloquesAfectados)
+    {
+        if (FVector::Dist(Bloque->GetActorLocation(), GetActorLocation()) <= RadioExplosion)
+        {
+            IBloqueComponent* BloqueComp = Cast<IBloqueComponent>(Bloque);
+            if (BloqueComp)
+            {
+                Grupo->AgregarHijo(TScriptInterface<IBloqueComponent>(Bloque));
+            }
+        }
+    }
+
+    // Aplicar daño a todos los hijos del composite
+    Grupo->RecibirDanio(Danio);
+
+    // Si el grupo solo se usa para la explosión, puedes destruirlo después
+    Grupo->Destroy();
+
     Destroy();
 }
 

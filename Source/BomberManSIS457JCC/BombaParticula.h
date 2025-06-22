@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Bomba.h"
+#include "BloqueComposite.h"
 #include "BombaParticula.generated.h"
 class UProjectileMovementComponent;
 class UParticleSystem;

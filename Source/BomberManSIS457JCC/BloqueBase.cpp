@@ -41,6 +41,15 @@ void ABloqueBase::Tick(float DeltaTime)
 
     return NuevoBloque;
 }
+ // BloqueBase.cpp
+ void ABloqueBase::RecibirDanio(int32 Danio)
+ {
+     Dureza -= Danio;
+     if (Dureza <= 0)
+     {
+         Destroy();
+     }
+ }
 
 
 

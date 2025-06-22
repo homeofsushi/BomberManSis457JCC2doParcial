@@ -23,6 +23,11 @@ class BOMBERMANSIS457JCC_API ABomba : public AActor
 public:	
 	// Sets default values for this actor's properties
 	ABomba();
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Bomba")
+	int32 Danio;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Bomba")
+	float RadioExplosion;
 
 protected:
 	// Called when the game starts or when spawned
@@ -33,3 +38,5 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 };
+
+

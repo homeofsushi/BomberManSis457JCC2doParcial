@@ -26,6 +26,7 @@ ABloqueMadera::ABloqueMadera()
     {
         MeshComp->SetMaterial(0, Material.Object);
     }
+    Dureza = 10;
 }
 
 void ABloqueMadera::InitializeBlock()

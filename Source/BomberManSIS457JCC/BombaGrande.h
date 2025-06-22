@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Bomba.h"
+#include "BloqueComposite.h"
 #include "BombaGrande.generated.h"
 
 class UProjectileMovementComponent;

@@ -26,6 +26,7 @@ ABloqueLadrillo::ABloqueLadrillo()
     }
 
     PrimaryActorTick.bCanEverTick = false;
+    Dureza = 20;
 }
 
 void ABloqueLadrillo::InitializeBlock()

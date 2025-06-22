@@ -2,7 +2,7 @@
 
 
 #include "Bomba.h"
-
+#include "BloqueBase.h"
 // Sets default values
 ABomba::ABomba()
 {
@@ -24,4 +24,5 @@ void ABomba::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 }
+
 

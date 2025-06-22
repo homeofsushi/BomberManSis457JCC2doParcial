@@ -4,6 +4,7 @@
 #include "EnemigoAcuatico.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "UObject/ConstructorHelpers.h"
 #include "BurbujaActor.h"
 
 AEnemigoAcuatico::AEnemigoAcuatico()
@@ -23,7 +24,7 @@ AEnemigoAcuatico::AEnemigoAcuatico()
     {
         MeshComponent->SetMaterial(0, MaterialAsset.Object);
     }
-
+    BurbujaClass = ABurbujaActor::StaticClass();
 }
 void AEnemigoAcuatico::BuscarJugador()
 {
@@ -43,18 +44,30 @@ void AEnemigoAcuatico::Atacar()
 {
     if (Objetivo && FVector::Dist(GetActorLocation(), Objetivo->GetActorLocation()) < 250.0f)
     {
-        UsarHabilidadEspecial(); // Lanza burbuja
+        UsarHabilidadEspecial(); //Va a lanzar una burbuja fea
     }
 }
 void AEnemigoAcuatico::UsarHabilidadEspecial()
 {
     // Ejemplo: Spawnea una burbuja frente al enemigo
-    if (Objetivo && FVector::Dist(GetActorLocation(), Objetivo->GetActorLocation()) < 250.0f)
+    if (bPuedeLanzarBurbuja && Objetivo && BurbujaClass)
     {
-        UWorld* World = GetWorld();
         FVector SpawnLocation = GetActorLocation() + GetActorForwardVector() * 100.0f;
-        FRotator SpawnRotation = GetActorRotation();
-        World->SpawnActor<ABurbujaActor>(ABurbujaActor::StaticClass(), SpawnLocation, SpawnRotation);
+        FRotator SpawnRotation = (Objetivo->GetActorLocation() - GetActorLocation()).Rotation();
+        GetWorld()->SpawnActor<ABurbujaActor>(BurbujaClass, SpawnLocation, SpawnRotation);
+
+        bPuedeLanzarBurbuja = false;
+        GetWorld()->GetTimerManager().SetTimer(
+            TimerHandle_BurbujaCooldown,
+            this,
+            &AEnemigoAcuatico::ReiniciarCooldownBurbuja,
+			5.0f, // Es para que cada 5 segundos pueda lanzar otra burbuja
+            false
+        );
     }
 }
 
+void AEnemigoAcuatico::ReiniciarCooldownBurbuja()
+{
+    bPuedeLanzarBurbuja = true;
+}

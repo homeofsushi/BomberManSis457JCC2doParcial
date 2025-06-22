@@ -20,4 +20,13 @@ protected:
 	void Atacar() override;
 	void UsarHabilidadEspecial() override;
 
+	UPROPERTY(EditAnywhere, Category = "Habilidad")
+	TSubclassOf<class ABurbujaActor> BurbujaClass;
+
+	FTimerHandle TimerHandle_BurbujaCooldown;
+	bool bPuedeLanzarBurbuja = true;
+
+	UFUNCTION()
+	void ReiniciarCooldownBurbuja();
+
 };

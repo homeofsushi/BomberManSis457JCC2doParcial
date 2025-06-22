@@ -31,8 +31,12 @@ void AEnemigoTerrestre::Moverse()
 {
     if (Objetivo)
     {
-        FVector Direccion = (Objetivo->GetActorLocation() - GetActorLocation()).GetSafeNormal();
-        AddMovementInput(Direccion, 1.0f);
+        float Distancia = FVector::Dist(GetActorLocation(), Objetivo->GetActorLocation());
+        if (Distancia > 200.0f) // Solo moverse si está lejos
+        {
+            FVector Direccion = (Objetivo->GetActorLocation() - GetActorLocation()).GetSafeNormal();
+            AddMovementInput(Direccion, 1.0f);
+        }
     }
 }
 
@@ -40,7 +44,10 @@ void AEnemigoTerrestre::Atacar()
 {
     if (Objetivo && FVector::Dist(GetActorLocation(), Objetivo->GetActorLocation()) < 200.0f)
     {
-        // Lógica de ataque
+        UE_LOG(LogTemp, Warning, TEXT("¡Enemigo terrestre ataca al jugador!"));
+        // Aquí podrías reducir la vida del jugador si tienes acceso a su clase
+        // auto* Jugador = Cast<ABomberManSIS457JCCCharacter>(Objetivo);
+        // if (Jugador) { Jugador->RecibirDanio(10.0f); }
     }
 }
 

@@ -33,8 +33,12 @@ void AEnemigoAereo::Moverse()
 {
     if (Objetivo)
     {
-        FVector Direccion = (Objetivo->GetActorLocation() - GetActorLocation()).GetSafeNormal();
-        AddMovementInput(Direccion, 1.0f);
+        float Distancia = FVector::Dist(GetActorLocation(), Objetivo->GetActorLocation());
+        if (Distancia > 300.0f) // Solo moverse si está lejos para atacar
+        {
+            FVector Direccion = (Objetivo->GetActorLocation() - GetActorLocation()).GetSafeNormal();
+            AddMovementInput(Direccion, 1.0f);
+        }
     }
 }
 
@@ -42,7 +46,7 @@ void AEnemigoAereo::Atacar()
 {
     if (Objetivo && FVector::Dist(GetActorLocation(), Objetivo->GetActorLocation()) < 300.0f)
     {
-        // Lógica de ataque aéreo
+		UE_LOG(LogTemp, Warning, TEXT("¡Atacando al jugador!"));
     }
 }
 

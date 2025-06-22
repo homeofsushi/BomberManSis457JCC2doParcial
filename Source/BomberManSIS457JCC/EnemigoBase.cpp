@@ -2,6 +2,8 @@
 
 
 #include "EnemigoBase.h"
+#include "CommandMover.h"
+#include "CommandAtacar.h"
 
 // Sets default values
 AEnemigoBase::AEnemigoBase()
@@ -10,6 +12,8 @@ AEnemigoBase::AEnemigoBase()
 	PrimaryActorTick.bCanEverTick = true;
 	MeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("MeshComponent"));
 	MeshComponent->SetupAttachment(RootComponent);
+	// Esta línea asegura que el enemigo siempre tenga un AIController
+	AutoPossessAI = EAutoPossessAI::PlacedInWorldOrSpawned;
 }
 
 // Called when the game starts or when spawned
@@ -29,8 +33,20 @@ void AEnemigoBase::Tick(float DeltaTime)
 void AEnemigoBase::TickComportamiento()
 {
 	BuscarJugador();
-	Moverse();
-	Atacar();
+
+	if (Objetivo && FVector::Dist(GetActorLocation(), Objetivo->GetActorLocation()) < 250.0f)
+	{
+		ICommand* Comando = new CommandAtacar(this);
+		Comando->Ejecutar();
+		delete Comando;
+	}
+	else if (Objetivo)
+	{
+		ICommand* Comando = new CommandMover(this);
+		Comando->Ejecutar();
+		delete Comando;
+	}
+
 	Volar();
 	UsarHabilidadEspecial();
 	Esconderse();

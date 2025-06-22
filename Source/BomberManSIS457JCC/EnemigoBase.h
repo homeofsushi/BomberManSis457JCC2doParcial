@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "ICommand.h"
 #include "EnemigoBase.generated.h"
 
 UCLASS(Abstract)
@@ -36,6 +37,7 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
 
 protected:
 	APawn* Objetivo;

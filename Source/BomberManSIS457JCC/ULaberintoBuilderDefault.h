@@ -21,10 +21,6 @@ public:
 
 public:
     void ConstruirBloque(int fila, int columna, ETipoBloque Tipo);
-    void ConstruirBloque(int fila, int columna);
-
-
-    virtual void ConstruirPuerta(int filaDesde, int colDesde, int filaHasta, int colHasta) override;
     virtual AALaberinto* ObtenerLaberinto() override;
     TMap<FIntPoint, FVector2D> OffsetAleatorioPorCelda;
     // ULaberintoBuilderDefault.h

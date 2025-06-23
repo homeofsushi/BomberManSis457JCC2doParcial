@@ -25,8 +25,6 @@ public:
 	virtual void Tick(float DeltaTime) override;
 	// Método template
 	virtual void TickComportamiento();
-
-	// Pasos variables
 	virtual void BuscarJugador() PURE_VIRTUAL(AEnemigoBase::BuscarJugador,);
 	virtual void Moverse() PURE_VIRTUAL(AEnemigoBase::Moverse, );
 	virtual void Atacar() PURE_VIRTUAL(AEnemigoBase::Atacar, );
@@ -38,8 +36,6 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-
-protected:
 	APawn* Objetivo;
 
 protected:

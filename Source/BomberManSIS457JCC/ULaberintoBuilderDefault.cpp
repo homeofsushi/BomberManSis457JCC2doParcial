@@ -7,8 +7,6 @@
 #include "Math/UnrealMathUtility.h"
 
 const FVector LaberintoOffset(-900.f, -500.f, 0.f);
-
-
 ULaberintoBuilderDefault::ULaberintoBuilderDefault()
 {
     LaberintoActual = nullptr;
@@ -78,8 +76,8 @@ void ULaberintoBuilderDefault::ConstruirLaberinto()
 
     caminos.Sort([&](const FIntPoint& A, const FIntPoint& B) { return rng.FRand() < 0.5f; });
 
-    int numMonedas = FMath::Min(3, caminos.Num());
-    int numPuertas = FMath::Min(3, caminos.Num() - numMonedas);
+    int numMonedas = FMath::Min(2, caminos.Num());
+    int numPuertas = FMath::Min(2, caminos.Num() - numMonedas);
 
     for (int k = 0; k < numMonedas; ++k)
         matriz[caminos[k].X][caminos[k].Y] = 2;
@@ -129,8 +127,6 @@ void ULaberintoBuilderDefault::ConstruirLaberinto()
     }
 }
 // El resto de tus métodos (ConstruirBloque, etc.) no necesitan cambios.
-
-
 void ULaberintoBuilderDefault::ConstruirBloque(int fila, int columna, ETipoBloque Tipo)
 {
     if (!LaberintoActual)
@@ -167,15 +163,6 @@ void ULaberintoBuilderDefault::ConstruirBloque(int fila, int columna, ETipoBloqu
 
     LaberintoActual->MatrizBloques[fila][columna] = bloque;
     ++BloquesCreados;
-}
-// Si no lo tienes, agrega esto en tu ULaberintoBuilderDefault.cpp
-
-void ULaberintoBuilderDefault::ConstruirBloque(int fila, int columna) {
-    ConstruirBloque(fila, columna, ETipoBloque::Madera);
-}
-
-void ULaberintoBuilderDefault::ConstruirPuerta(int filaDesde, int colDesde, int filaHasta, int colHasta) {
-    // Implementación vacía o lógica de puertas
 }
 
 AALaberinto* ULaberintoBuilderDefault::ObtenerLaberinto() {

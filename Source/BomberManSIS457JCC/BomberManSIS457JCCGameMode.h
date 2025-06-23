@@ -17,6 +17,7 @@ public:
 public:
 	ABomberManSIS457JCCGameMode();
 	void SpawnBomb(EBombType Tipo, const FVector& Location, const FRotator& Rotation);
+	void OrdenarAccionEnemigos();
 
 private:
 	AJuegoFacadeActor* Facade;

@@ -39,13 +39,13 @@ ACoin::ACoin()
         CoinMesh->SetRelativeRotation(FRotator(90.f, 90.f, 0.f));
     }
 
-    // 3) Inicializamos valores de rotación
+
     RotationSpeed = 45.f;   // grados por segundo
     RotationDirection = 1.f;    // comienza rotando “hacia adelante”
     RotationTimer = 0.f;
     RotationInterval = 1.0f;   // cambia de dirección cada 1 segundo
 
-    // 4) Variables de tipo y valor de la moneda
+
     CoinType = ECoinType::Gold;
     CoinValue = 1;
 }
@@ -54,9 +54,6 @@ void ACoin::BeginPlay()
 {
     Super::BeginPlay();
 
-    // En BeginPlay no colocamos mesh/material, sino en InitializeBlock().
-    // De todos modos, si la moneda se spawnea manualmente sin fábrica, 
-    // podemos llamar aquí a InitializeBlock():
     InitializeBlock();
 }
 
